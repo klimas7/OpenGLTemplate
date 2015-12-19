@@ -11,8 +11,8 @@ If you press 'a' or 'left mouse button', add new point.
 If you press 'd' or 'right mouse button', delete a nearest point.
 
 Compile and run:  
-<code>
+<code> 
 $ cmake .  
 $ make  
-$ ./OpenGLTemplate
+$ ./OpenGLTemplate  
 </code>
