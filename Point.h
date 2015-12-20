@@ -11,11 +11,21 @@ private:
     float r;
     float fi;
 
+    void calculateRandFi(float x, float y);
+
 public:
     Point(float x, float y);
+
     float getX();
+
     float getY();
+
+    float getR();
+
+    float getFi();
+
     int operator<(Point);
+
     float distance(Point);
 };
 
