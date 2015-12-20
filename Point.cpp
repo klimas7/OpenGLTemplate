@@ -1,5 +1,3 @@
-#include <iostream>
-#include <cmath>
 #include "Point.h"
 
 Point::Point(float x, float y) {

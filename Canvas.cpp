@@ -2,19 +2,6 @@
 
 Canvas::Canvas() { }
 
-void Canvas::addPointD(float x, float y) {
-    points.push_back(Point(x, y));
-    sortPoints();
-}
-
-void Canvas::sortPoints() {
-    sort(points.begin(), points.end());
-}
-
-vector<Point> Canvas::getPoints() {
-    return points;
-}
-
 void Canvas::setWidth(int width) {
     this->width = width;
 }
@@ -31,35 +18,8 @@ int Canvas::getHeight() const {
     return height;
 }
 
-void Canvas::addPointI(int x, int y) {
-    if (x <= 0 || y <= 0 || x >= width || y >= height)
-        return;
-
-    points.push_back(getPoint(x, y));
-    sortPoints();
-}
-
-void Canvas::deletePoint(int x, int y) {
-    if (points.size() <= 2)
-        return;
-
-    Point p = getPoint(x, y);
-
-    int nearestPoint = 0;
-    double minimalDistance = 2.0 * sqrt(2.0);
-
-    for (unsigned int i = 0; i < points.size(); i++) {
-        double distance = points.at(i).distance(p);
-        if (distance < minimalDistance) {
-            nearestPoint = i;
-            minimalDistance = distance;
-        }
-    }
-    points.erase(points.begin() + nearestPoint);
-}
-
-Point Canvas::getPoint(int x, int y) const {
-    return Point(((float) x / (float) width) * 2.f - 1.f, 1.f - ((float) y / (float) height) * 2.f);
+Points Canvas::getPoints() {
+    return points;
 }
 
 void Canvas::initCanvas(int *argc, char **argv) {
@@ -85,10 +45,10 @@ void Canvas::initCanvas(int *argc, char **argv) {
 
 void Canvas::addInitialPoints() {
     //Same initial Points
-    addPointD(0.5f, 0.5f);
-    addPointD(0.5f, -0.5f);
-    addPointD(-0.5f, -0.5f);
-    addPointD(-0.5f, 0.5f);
+    points.addPoint(0.5f, 0.5f);
+    points.addPoint(0.5f, -0.5f);
+    points.addPoint(-0.5f, -0.5f);
+    points.addPoint(-0.5f, 0.5f);
 }
 
 void Canvas::render() {
@@ -120,10 +80,10 @@ void Canvas::renderLine(Point &p1, Point &p2) {
 
 void Canvas::keyboard(unsigned char key, int x, int y) {
     if (key == 'a') {
-        addPointI(x, y);
+        points.addPoint(x, y, width, height);
     }
     if (key == 'd') {
-        deletePoint(x, y);
+        points.deletePoint(x, y, width, height);
     }
     if (key == 27) {
         exit(EXIT_SUCCESS);
@@ -133,11 +93,11 @@ void Canvas::keyboard(unsigned char key, int x, int y) {
 
 void Canvas::mouse(int button, int state, int x, int y) {
     if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
-        addPointI(x, y);
+        points.addPoint(x, y, width, height);
         render();
     }
     else if (button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN) {
-        deletePoint(x, y);
+        points.deletePoint(x, y, width, height);
         render();
     }
 }

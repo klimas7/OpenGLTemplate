@@ -1,8 +1,8 @@
 #include <vector>
-#include <algorithm>
 #include <GL/gl.h>
 #include <GL/glut.h>
 #include "Point.h"
+#include "Points.h"
 
 #ifndef TEST_POINTS_H
 #define TEST_POINTS_H
@@ -14,26 +14,16 @@ private:
     int width;
     int height;
 
+    Points points;
+
+    Points getPoints();
+
     void addInitialPoints();
 
-    vector<Point> points;
-
-    void sortPoints();
-
     void renderLine(Point &p1, Point &p2);
-
 public:
+
     Canvas();
-
-    void addPointD(float, float);
-
-    void addPointI(int, int);
-
-    void deletePoint(int, int);
-
-    Point getPoint(int x, int y) const;
-
-    vector<Point> getPoints();
 
     void setWidth(int);
 

@@ -1,6 +1,7 @@
+#include <cmath>
+
 #ifndef TEST_POINT_H
 #define TEST_POINT_H
-
 
 class Point {
 private:
@@ -11,6 +12,9 @@ private:
     float r;
     float fi;
 
+    /**
+     * Method calculate radius 'r' and angle 'fi' in plar coordinate
+     */
     void calculateRandFi(float x, float y);
 
 public:
@@ -24,8 +28,14 @@ public:
 
     float getFi();
 
+    /**
+     * use to sort points, point is smaller than the other point, if angle 'fi' is smaller
+     */
     int operator<(Point);
 
+    /**
+     * calculate distance between to points
+     */
     float distance(Point);
 };
 
