@@ -1,10 +1,8 @@
 #include "Canvas.h"
 
-void InitCanvas();
-
 Canvas::Canvas() { }
 
-void Canvas::addPointD(double x, double y) {
+void Canvas::addPointD(float x, float y) {
     points.push_back(Point(x, y));
     sortPoints();
 }
@@ -50,7 +48,7 @@ void Canvas::deletePoint(int x, int y) {
     int nearestPoint = 0;
     double minimalDistance = 2.0 * sqrt(2.0);
 
-    for (int i = 0; i < points.size(); i++) {
+    for (unsigned int i = 0; i < points.size(); i++) {
         double distance = points.at(i).distance(p);
         if (distance < minimalDistance) {
             nearestPoint = i;
@@ -61,17 +59,36 @@ void Canvas::deletePoint(int x, int y) {
 }
 
 Point Canvas::getPoint(int x, int y) const {
-    return Point(((double) x / (double) width) * 2. - 1., 1. - ((double) y / (double) height) * 2.);
+    return Point(((float) x / (float) width) * 2.f - 1.f, 1.f - ((float) y / (float) height) * 2.f);
 }
 
-void Canvas::initCanvas() {
+void Canvas::initCanvas(int *argc, char **argv) {
     setWidth(1000);
     setHeight(1000);
+
+    glutInitWindowSize(getWidth(), getHeight());
+
+    glutInitDisplayMode(GLUT_DOUBLE);
+    glutCreateWindow("OpenGL Template");
+    glutPositionWindow(120, 120);
+
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluOrtho2D(-1.0, 1.0, -1.0, 1.0);
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    glEnable(GL_DEPTH_TEST);
+
+    addInitialPoints();
+}
+
+void Canvas::addInitialPoints() {
     //Same initial Points
-    addPointD(0.5, 0.5);
-    addPointD(0.5, -0.5);
-    addPointD(-0.5, -0.5);
-    addPointD(-0.5, 0.5);
+    addPointD(0.5f, 0.5f);
+    addPointD(0.5f, -0.5f);
+    addPointD(-0.5f, -0.5f);
+    addPointD(-0.5f, 0.5f);
 }
 
 void Canvas::render() {
@@ -87,7 +104,7 @@ void Canvas::render() {
     glColor3f(0.0f, 1.0f, 0.0f);
     glBegin(GL_LINES);
 
-    for (int i = 0; i < pointsSize - 1; i++) {
+    for (unsigned int i = 0; i < pointsSize - 1; i++) {
         renderLine(getPoints().at(i), getPoints().at(i + 1));
     }
     renderLine(getPoints().at(pointsSize - 1), getPoints().at(0));

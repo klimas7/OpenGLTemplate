@@ -5,18 +5,18 @@
 class Point {
 private:
     //Cartesian coordinate
-    double x;
-    double y;
+    float x;
+    float y;
     //Polar coordinate
-    double r;
-    double fi;
+    float r;
+    float fi;
 
 public:
-    Point(double x, double y);
-    double getX();
-    double getY();
+    Point(float x, float y);
+    float getX();
+    float getY();
     int operator<(Point);
-    double distance(Point);
+    float distance(Point);
 };
 
 
